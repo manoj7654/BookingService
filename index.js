@@ -34,7 +34,7 @@ app.post("/booking", async (req, res) => {
     for (let i = 0; i < seats.length; i++) {
       const { seat_class } = seats[i].toObject();
       arr.push(seat_class);
-      console.log(seat_class);
+      // console.log(seat_class);
     }
     // console.log(arr)
 
@@ -70,9 +70,9 @@ app.post("/booking", async (req, res) => {
       } else {
         pricing += +seatPrice[i].max_price || +seatPrice[i].normal_price;
       }
-      console.log(pricing);
+      // console.log(pricing);
     }
-    console.log(pricing)
+    // console.log(pricing)
    
 
     // if seats are not booked then users can book seats
@@ -93,30 +93,32 @@ app.post("/booking", async (req, res) => {
     // console.log(result1);
 
     let updatePrice = "$" + pricing.toFixed(2);
-  //   const transporter = nodemailer.createTransport({
-  //     service: 'gmail',
-  //     auth: {
-  //         user: 'manojsfstm5@gmail.com',
-  //         pass: "manoj@7654"
-  //     }
-  // });
+
+    // for sending mail to users when they booked seat
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+          user: 'manojsfstm5@gmail.com',
+          pass: process.env.emailpassword
+      }
+  });
   
-  // const mailOptions = {
-  //     from: 'manojsfstm@gmail.com',
-  //     to: `${email}`,
-  //     subject: 'Booking Confirmation from seat booking system',
-  //     text: `Your Booking is confirmed on ${new Date()} .`
-  // };
-  // transporter.sendMail(mailOptions, (error, info) => {
-  //     if (error) {
-  //         console.log(error);
-  //         return res.status(500).json({ message: 'Error while sending confirmation mail' });
-  //     } else {
-  // //         // res.json({ msg: "new booking created successfully" })
+  const mailOptions = {
+      from: 'manojsfstm5@gmail.com',
+      to: `${email}`,
+      subject: 'Booking Confirmation from Seat booking system',
+      text: `Your Booking is confirmed on ${new Date()} and your bookingId: ${booking._id}, totalAmount: ${updatePrice} }.`
+  };
+  transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+          console.log(error);
+          return res.status(500).json({ message: 'Error while sending confirmation mail' });
+      } else {
+  //         // res.json({ msg: "new booking created successfully" })
          res.json({ bookingId: booking._id, totalAmount: updatePrice });
-  //         return res.status(200).json({ message: 'Confiramtion sent to email', msg: "new booking created successfully" });
-  //     }
-  // });
+          return res.status(200).json({ message: 'Confiramtion sent to email', msg: "new booking created successfully" });
+      }
+  });
 
  
   } catch (error) {
@@ -169,7 +171,7 @@ app.get("/seats/:id", async (req, res) => {
     }else{
      // for storing seat_class
       const{seat_class}=seat
-      console.log(seat_class)
+      // console.log(seat_class)
 
       // // for finding particular seat price
   const seatPrice = await SeatPriceModal.findOne({ seat_class: seat_class});
@@ -182,11 +184,11 @@ app.get("/seats/:id", async (req, res) => {
   for (let i = 0; i < totalSeats.length; i++) {
     count++;
   }
-   console.log(count)
+  //  console.log(count)
 
    // // for counting total booked seat
   const bookSeats = await SeatModal.countDocuments({ isBooked: true });
-  console.log(bookSeats)
+  // console.log(bookSeats)
 
   
       // for finding totalAmount
@@ -206,18 +208,14 @@ app.get("/seats/:id", async (req, res) => {
       res.status(200).json({"Seat":seat,"Price":pricing})
     }
         
-      
-  
-  
 
-
-
-  
-   
   } catch (error) {
     res.status(400).json({ error: "Unable to find seat" });
   }
 });
+
+
+// listening server 
 
 app.listen(process.env.port, async () => {
   try {
