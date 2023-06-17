@@ -45,7 +45,7 @@ app.post("/booking", async (req, res) => {
 
     // for finding particular seat price
     const seatPrice = await SeatPriceModal.find({ seat_class: { $in: arr } });
-    console.log("seat price", seatPrice[0]._id);
+    // console.log("seat price", seatPrice[0]._id);
 
     // for finding total seats
     const totalSeats = await SeatModal.find();
@@ -80,8 +80,10 @@ app.post("/booking", async (req, res) => {
       seat: seats,
       name,
       phoneNumber,
+      email,
       price: pricing,
     });
+
 
     await BookingModal.create(booking);
 
@@ -107,7 +109,7 @@ app.post("/booking", async (req, res) => {
       from: 'manojsfstm5@gmail.com',
       to: `${email}`,
       subject: 'Booking Confirmation from Seat booking system',
-      text: `Your Booking is confirmed on ${new Date()} and your bookingId: ${booking._id}, totalAmount: ${updatePrice} }.`
+      text: `Dear ${name} Your Booking is confirmed in Seat Booking System on ${new Date()} and your bookingId: ${booking._id}, totalAmount: ${updatePrice} .`
   };
   transporter.sendMail(mailOptions, (error, info) => {
       if (error) {
@@ -130,7 +132,7 @@ app.post("/booking", async (req, res) => {
 // for getting seats along with status
 app.get("/seats", async (req, res) => {
   try {
-    const seats = await SeatModal.find({}, { seat_class: 1, isBooked: 1 }).sort(
+    const seats = await SeatModal.find({}, { seat_class: 1, isBooked: 1,id:1 }).sort(
       { seat_class: 1 }
     );
 
