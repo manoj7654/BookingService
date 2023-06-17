@@ -2,8 +2,10 @@ const mongoose=require("mongoose");
 
 
 const seatSchema=mongoose.Schema({
-    seatClass:String,
+    seat_class:String,
     isBooked:Boolean,
+    seat_identifier:String,
+    id:Number,
     bookings:[{type:"ObjectId",ref:"Booking"}],
    
 })
