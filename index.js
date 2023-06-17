@@ -11,6 +11,7 @@ const { BookingModal } = require("./modals/bookingModal");
 const { SeatModal } = require("./modals/seatModals");
 const { SeatPriceModal } = require("./modals/seatPriceModal");
 
+
 // middleware
 app.use(express.json());
 
