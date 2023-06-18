@@ -1,17 +1,12 @@
-FROM node:17
+FROM node:latest
 
 WORKDIR /app
 
-COPY ./package*.json ./
-
-RUN npm install prettier -g
+COPY . /app
 
 RUN npm install
 
-COPY . .
-
-
 EXPOSE 4500
 
-CMD ["npm", "run","server"]
+CMD node index.js
 

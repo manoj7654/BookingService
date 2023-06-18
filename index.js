@@ -178,7 +178,7 @@ app.get("/seats/:id", async (req, res) => {
 
       // // for finding particular seat price
   const seatPrice = await SeatPriceModal.findOne({ seat_class: seat_class});
-  console.log("seatPrice",seatPrice);
+  // console.log("seatPrice",seatPrice);
 
     // // for finding total seats
   const totalSeats = await SeatModal.find();
@@ -204,7 +204,7 @@ app.get("/seats/:id", async (req, res) => {
         } else {
           pricing += +seatPrice.max_price || +seatPrice.normal_price;
         }
-        console.log(pricing);
+        // console.log(pricing);
       // }
       // console.log(pricing)
 

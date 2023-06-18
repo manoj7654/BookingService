@@ -170,3 +170,25 @@ error: Error message indicating the reason for the failure.
    
 # Database
 This application is used a MongoDB database to store seat and booking information and users details.
+
+# Docker Deployment and Run Guide
+
+1.Prerequisites : For docker deployment and running of the Docker Container ensure that the Docker is install in our local system.
+
+2. Build the Docker Images:
+
+       docker build -t <image-name>:<tag> .
+       Example:
+       
+       docker build -t manoj7654/bookingservice:0.0.1.RELEASE .
+
+3. Run the Docker Image:
+
+       docker run -p <host-port>:<container-port> -e <key>=<value> <image-name>:<tag>
+
+       Example:
+       docker container run -d -p 4500:4500 manoj7654/bookingservice:0.0..RELEASE 
+4. Stop the Docker Container Image:
+
+        docker stop <container-id>
+
